@@ -24,15 +24,15 @@ import time
 
 
 class TwitchIRC:
-	def __init__(self, chan="", nick="", passw="", host="irc.twitch.tv", port=6667):
+	def __init__(self, chan="", nick="", passw="", host="irc.twitch.tv", port=6669):
 		self.channel = chan
 		self.nickname = nick
-		self.password = passw
+		self.password = password
 		self.host = host
 		self.port = port
 
-		self.rate_num_msgs = 19  # Number of messages allowed...
-		self.rate_timeframe = 30  # ...in timeframe of x seconds
+		self.rate_num_msgs = 10  # Number of messages allowed...
+		self.rate_timeframe = 15  # ...in timeframe of x seconds
 		self.__message_timestamps = []
 
 		self.__connected = False
@@ -65,7 +65,7 @@ class TwitchIRC:
 		try:
 			self.__sock.connect((self.host, self.port))
 		except socket.gaierror:
-			return "Cannot find server"
+			return "Cannot find on server"
 		except (TimeoutError, socket.timeout):
 			return "No response from server (connection timed out)"
 
@@ -76,12 +76,12 @@ class TwitchIRC:
 
 		auth_response = self.read()
 		if "Welcome, GLHF!" not in auth_response:
-			return "Bad Authentication! Check your Oauth key"
+			return "Bad Authentication! Check your Oauth key bro"
 
 		try:
 			self.read()  # Wait for "JOIN" response
 		except socket.timeout:
-			return "Channel not found!"
+			return "Channel not found bro!"
 
 		return True
 
@@ -98,7 +98,7 @@ class TwitchIRC:
 	def test_authentication(self):
 		if self.connect(False):
 			self.disconnect()
-		print("Authentication successful!")
+		print("Authentication successful bro!")
 
 	def chat(self, msg, suppress_warnings=True):
 		if not self.check_rates() or not self.connect(suppress_warnings):
